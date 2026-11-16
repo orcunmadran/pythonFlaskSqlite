@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if islem == 'duzenle' %}Kitap Düzenle{% else %}Yeni Kitap Ekle{% endif %}
+{% endblock %}
+
+{% block content %}
+<section class="kart form-karti">
+    <div class="form-baslik">
+        <h2>{% if islem == 'duzenle' %}Kitap Kaydını Güncelle (#{{ kitap['id'] }}){% else %}Kataloğa Yeni Kitap Ekle{% endif %}</h2>
+        <a href="{{ url_for('index') }}" class="btn btn-ikincil">&larr; Listeye Dön</a>
+    </div>
+
+    <form method="post" class="kitap-formu">
+        <div class="form-izgara">
+            <div class="form-grup">
+                <label for="isbn">ISBN *</label>
+                <input
+                    type="text"
+                    id="isbn"
+                    name="isbn"
+                    value="{{ kitap['isbn'] or '' }}"
+                    placeholder="Örn: 978-9750807145"
+                    required
+                >
+            </div>
+
+            <div class="form-grup">
+                <label for="raf_kodu">Raf / Yer Numarası *</label>
+                <input
+                    type="text"
+                    id="raf_kodu"
+                    name="raf_kodu"
+                    value="{{ kitap['raf_kodu'] or '' }}"
+                    placeholder="Örn: QA76.9.D3 E46"
+                    required
+                >
+            </div>
+
+            <div class="form-grup tam-genislik">
+                <label for="baslik">Kitap Adı *</label>
+                <input
+                    type="text"
+                    id="baslik"
+                    name="baslik"
+                    value="{{ kitap['baslik'] or '' }}"
+                    placeholder="Kitabın tam adını giriniz"
+                    required
+                >
+            </div>
+
+            <div class="form-grup">
+                <label for="yazar">Yazar(lar) *</label>
+                <input
+                    type="text"
+                    id="yazar"
+                    name="yazar"
+                    value="{{ kitap['yazar'] or '' }}"
+                    placeholder="Örn: Yaşar Kemal"
+                    required
+                >
+            </div>
+
+            <div class="form-grup">
+                <label for="yayinevi">Yayınevi *</label>
+                <input
+                    type="text"
+                    id="yayinevi"
+                    name="yayinevi"
+                    value="{{ kitap['yayinevi'] or '' }}"
+                    placeholder="Örn: Yapı Kredi Yayınları"
+                    required
+                >
+            </div>
+
+            <div class="form-grup">
+                <label for="yayin_yili">Yayın Yılı *</label>
+                <input
+                    type="number"
+                    id="yayin_yili"
+                    name="yayin_yili"
+                    min="1400"
+                    max="2100"
+                    value="{{ kitap['yayin_yili'] or '' }}"
+                    placeholder="Örn: 2023"
+                    required
+                >
+            </div>
+
+            <div class="form-grup">
+                <label for="kategori">Kategori *</label>
+                <select id="kategori" name="kategori" required>
+                    <option value="">Kategori seçiniz...</option>
+                    {% for kat in kategoriler %}
+                        <option value="{{ kat }}" {% if kitap['kategori'] == kat %}selected{% endif %}>
+                            {{ kat }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-grup">
+                <label for="durum">Durum *</label>
+                <select id="durum" name="durum" required>
+                    <option value="Mevcut" {% if kitap['durum'] == 'Mevcut' %}selected{% endif %}>Mevcut</option>
+                    <option value="Ödünçte" {% if kitap['durum'] == 'Ödünçte' %}selected{% endif %}>Ödünçte</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-alt-butonlar">
+            <button type="submit" class="btn btn-birincil">
+                {% if islem == 'duzenle' %}Değişiklikleri Kaydet{% else %}Kitabı Kaydet{% endif %}
+            </button>
+            <a href="{{ url_for('index') }}" class="btn btn-ikincil">İptal</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

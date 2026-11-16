@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Kütüphane Kataloğu{% endblock %} - VTYS Örnek Uygulama</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="ust-cubuk">
+        <div class="konteyner ust-icerik">
+            <a href="{{ url_for('index') }}" class="marka">
+                <span class="marka-ikon">&#128218;</span>
+                <div>
+                    <h1>Kütüphane Kataloğu</h1>
+                    <span class="alt-baslik">Flask &amp; SQLite CRUD Örnek Uygulaması</span>
+                </div>
+            </a>
+            <nav class="menu">
+                <a href="{{ url_for('index') }}" class="btn btn-ikincil">Katalog Listesi</a>
+                <a href="{{ url_for('kitap_ekle') }}" class="btn btn-birincil">+ Yeni Kitap Ekle</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="konteyner ana-icerik">
+        {% with mesajlar = get_flashed_messages(with_categories=true) %}
+            {% if mesajlar %}
+                <div class="bildirimler">
+                    {% for kategori, mesaj in mesajlar %}
+                        <div class="bildirim bildirim-{{ kategori }}">
+                            {{ mesaj }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="alt-bilgi">
+        <div class="konteyner">
+            Veri Tabanı Yönetim Sistemleri Dersi Örnek Uygulaması &middot; Python + Flask + SQLite
+        </div>
+    </footer>
+</body>
+</html>
